@@ -4,7 +4,11 @@ import NetWorthCalc from "./Components/NetWorthCalc";
 
 class App extends Component {
   state = {
+<<<<<<< HEAD
     netWorth: "10000",
+=======
+    netWorth: 10000,
+>>>>>>> e7fd628d5c99672174fba65e3679befaf6dbfe62
   };
 
   // Sets the netWorth state

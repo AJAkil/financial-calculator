@@ -3,62 +3,61 @@ import PropTypes from "prop-types";
 import "../App.css";
 
 export class NetWorthCalc extends Component {
-  state = {
-    asset1: null,
-    asset2: null,
-    asset3: null,
-    asset4: null,
-    asset5: null,
-
-    liab1: null,
-    liab2: null,
-    liab3: null,
-    liab4: null,
-    liab5: null,
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      asset1: '',
+      asset2: '',
+      asset3: '',
+      asset4: '',
+      asset5: '',
+  
+      liab1: '',
+      liab2: '',
+      liab3: '',
+      liab4: '',
+      liab5: '',
+    };
+    this.onChange = this.onChange.bind(this)
+    this.calculate = this.calculate.bind(this)
+  }
 
   static propTypes = {
     setNetWorth: PropTypes.func.isRequired,
   };
 
   // Function to handle the change of value for the forms
-  onChange = (e) => {
+  onChange (e) {
+    // e.target.value
     this.setState({
       [e.target.name]: e.target.value,
     });
+    //this.calculate();
   };
 
+  componentDidUpdate (prevProps, prevState) {
+    if(prevState !== this.state){
+      this.calculate()
+    }
+  }
+
+
+  calculate () {
+    let netWorth = 0;
+    console.log(this.state);
+    for (const [key, value] of Object.entries(this.state)) {
+       console.log(`The key is ${key} and the value is ${value}`);
+      key.startsWith("a")
+        ? (netWorth += parseInt(value) ? parseInt(value) : 0)
+        : (netWorth -= parseInt(value)? parseInt(value) : 0);
+    }
+    this.props.setNetWorth(netWorth);
+    //console.log(netWorth)
+  }
   // Function to handle the submit of the forms
   onSubmit = (e) => {
     e.preventDefault();
-
-    if (
-      this.state.asset1 === null ||
-      this.state.asset2 === null ||
-      this.state.asset3 === null ||
-      this.state.asset4 === null ||
-      this.state.asset5 === null ||
-      this.state.liab1 === null ||
-      this.state.liab2 === null ||
-      this.state.liab3 == null ||
-      this.state.liab4 === null ||
-      this.state.liab5 === null
-    ) {
-      alert("Please Do not leave any place empty!");
-    } else {
-      let netWorth = 0;
-
-      for (const [key, value] of Object.entries(this.state)) {
-        key.startsWith("a")
-          ? (netWorth += parseInt(value))
-          : (netWorth -= parseInt(value));
-      }
-
-      // passing the value up
-      this.props.setNetWorth(netWorth);
-
-      this.controller = true;
-    }
+    this.calculate();
   };
 
   render() {
@@ -110,7 +109,8 @@ export class NetWorthCalc extends Component {
           </div>
           <div className="right-form">
             <h1>Liabilities</h1>
-
+          </div><br/>
+          <div className="form6">
             <label htmlFor="Mortgages">Mortgages $</label>
             <input
               name="liab1"
@@ -140,6 +140,7 @@ export class NetWorthCalc extends Component {
 
             <label htmlFor="AutoLoans"> Auto Loans $</label>
             <input
+              
               name="liab4"
               type="number"
               placeholder="0$"
