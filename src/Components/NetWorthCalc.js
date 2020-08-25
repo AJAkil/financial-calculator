@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import "../App.css";
 
 export class NetWorthCalc extends Component {
   state = {
@@ -31,24 +32,41 @@ export class NetWorthCalc extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    let netWorth = 0;
+    if (
+      this.state.asset1 === null ||
+      this.state.asset2 === null ||
+      this.state.asset3 === null ||
+      this.state.asset4 === null ||
+      this.state.asset5 === null ||
+      this.state.liab1 === null ||
+      this.state.liab2 === null ||
+      this.state.liab3 == null ||
+      this.state.liab4 === null ||
+      this.state.liab5 === null
+    ) {
+      alert("Please Do not leave any place empty!");
+    } else {
+      let netWorth = 0;
 
-    for (const [key, value] of Object.entries(this.state)) {
-      console.log(`The key is ${key} and the value is ${value}`);
-      key.startsWith("a")
-        ? (netWorth += parseInt(value))
-        : (netWorth -= parseInt(value));
+      for (const [key, value] of Object.entries(this.state)) {
+        key.startsWith("a")
+          ? (netWorth += parseInt(value))
+          : (netWorth -= parseInt(value));
+      }
+
+      // passing the value up
+      this.props.setNetWorth(netWorth);
+
+      this.controller = true;
     }
-
-    // passing the value up
-    this.props.setNetWorth(netWorth);
   };
 
   render() {
     return (
-      <div>
+      <div className="form-container">
         <form className="form" onSubmit={this.onSubmit}>
-          <div className="form1">
+          <div className="left-form">
+            <h1>Assets</h1>
             <label htmlFor="RealEstate ">Real Estate $</label>
             <input
               name="asset1"
@@ -57,8 +75,6 @@ export class NetWorthCalc extends Component {
               value={this.state.asset1}
               onChange={this.onChange}
             ></input>
-          </div>
-          <div className="form2">
             <label htmlFor="SavingAcc">Saving Accounts $</label>
             <input
               name="asset2"
@@ -67,8 +83,6 @@ export class NetWorthCalc extends Component {
               value={this.state.asset2}
               onChange={this.onChange}
             ></input>
-          </div>
-          <div className="form3">
             <label htmlFor="Retirement">Retirement Accounts $</label>
             <input
               name="asset3"
@@ -77,8 +91,6 @@ export class NetWorthCalc extends Component {
               value={this.state.asset3}
               onChange={this.onChange}
             ></input>
-          </div>
-          <div className="form4">
             <label htmlFor="Autos">Autos $</label>
             <input
               name="asset4"
@@ -87,8 +99,6 @@ export class NetWorthCalc extends Component {
               value={this.state.asset4}
               onChange={this.onChange}
             ></input>
-          </div>
-          <div className="form5">
             <label htmlFor="Others">Others $</label>
             <input
               name="asset5"
@@ -98,7 +108,9 @@ export class NetWorthCalc extends Component {
               onChange={this.onChange}
             ></input>
           </div>
-          <div className="form6">
+          <div className="right-form">
+            <h1>Liabilities</h1>
+
             <label htmlFor="Mortgages">Mortgages $</label>
             <input
               name="liab1"
@@ -107,8 +119,7 @@ export class NetWorthCalc extends Component {
               value={this.state.liab1}
               onChange={this.onChange}
             ></input>
-          </div>
-          <div className="form7">
+
             <label htmlFor="PersonalLoans">Personal Loans $ </label>
             <input
               name="liab2"
@@ -117,8 +128,7 @@ export class NetWorthCalc extends Component {
               value={this.state.liab2}
               onChange={this.onChange}
             ></input>
-          </div>
-          <div className="form8">
+
             <label htmlFor="StudentLoans">Student Loans $</label>
             <input
               name="liab3"
@@ -127,8 +137,7 @@ export class NetWorthCalc extends Component {
               value={this.state.liab3}
               onChange={this.onChange}
             ></input>
-          </div>
-          <div className="form9">
+
             <label htmlFor="AutoLoans"> Auto Loans $</label>
             <input
               name="liab4"
@@ -137,8 +146,7 @@ export class NetWorthCalc extends Component {
               value={this.state.liab4}
               onChange={this.onChange}
             ></input>
-          </div>
-          <div className="form10">
+
             <label htmlFor="OtherLoans">Other Loans $</label>
             <input
               name="liab5"
@@ -149,7 +157,7 @@ export class NetWorthCalc extends Component {
             ></input>
           </div>
 
-          <button>Submit</button>
+          <button className="btn">Submit</button>
         </form>
       </div>
     );

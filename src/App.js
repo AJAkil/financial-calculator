@@ -4,7 +4,7 @@ import NetWorthCalc from "./Components/NetWorthCalc";
 
 class App extends Component {
   state = {
-    netWorth: "10000$",
+    netWorth: "10000",
   };
 
   // Sets the netWorth state
@@ -18,10 +18,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <p>{`${this.state.netWorth}$`}</p>
+        <p style={this.Networthstyle}>{`Net Worth : ${this.state.netWorth}$`}</p>
         <NetWorthCalc setNetWorth={this.setNetWorth} />
       </div>
     );
+  }
+
+  Networthstyle = {
+    textAlign: "center",
+    fontSize: "100px",
   }
 }
 
